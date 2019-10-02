@@ -7,7 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "testw": "jest --watch",
+    "coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -21,5 +23,16 @@
   "homepage": "https://github.com/Kirouane/test-tp#readme",
   "devDependencies": {
     "jest": "^24.1.0"
+  },
+  "jest": {
+    "verbose": true,
+    "coverageThreshold": {
+      "global": {
+        "branches": 0,
+        "functions": 0,
+        "lines": 90,
+        "statements": 0
+      }
+    }
   }
 }
