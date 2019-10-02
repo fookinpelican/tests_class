@@ -32,8 +32,8 @@ Util.isPrime = function (n) {
     }
     for (var i = 2; i < n; i++)
         if (n % i === 0) return false;
-    return true;
 
+    return true;
 };
 
 
@@ -47,26 +47,27 @@ Util.isPrime = function (n) {
  * @returns {number}
  */
 Util.sumPrime = function(n) {
-    var result = 0 ; 
+    var result = 0 ;
     for (var i = 2 ; i < n ; i++) {
-        if (Util.isPrime(i)) 
-            result = result + i ; 
+        if (Util.isPrime(i))
+            result = result + i ;
     } 
     return result; 
 };
-Util.fizzBuzzCompo = function(n) {
-    var value = ""; 
-    if (n % 3 === 0) {
-        value = value + "Fizz";
-    } if (n%5 === 0) {
-        value=value+"Buzz"; 
-    } if (n%3 != 0 && n%5 != 0) {
-        value=n; 
-    }
-    
-    return value; 
 
+Util.fizzBuzzCompo = function(n) {
+    var value = "";
+    if (n % 3 === 0) {
+        value = "Fizz";
+    } if (n % 5 === 0) {
+        value += "Buzz";
+    } if (n % 3 !== 0 && n % 5 !== 0) {
+        value = n;
+    }
+
+    return value; 
 }
+
 /**
  * Cette méthode doit retourner un tableau de 1 à n tel que:
  * - Pour les nombres multiples de 3, les remplacer par "Fizz"
@@ -80,9 +81,9 @@ Util.fizzBuzzCompo = function(n) {
  * @returns {array}
  */
 Util.fizzBuzz = function(n) {
-    var tab = new Array(); 
-    for (var i = 0 ; i <= n ; i++) {
-        tab.push(Util.fizzBuzzCompo(i)); 
+    var tab = new Array();
+    for (var i = 1; i <= n ; i++) {
+        tab.push(Util.fizzBuzzCompo(i));
     }
     return tab; 
 };
@@ -96,15 +97,14 @@ Util.fizzBuzz = function(n) {
  * @param phrase
  * @returns {string}
  */
-Util.cipher = function (phrase) {    
-    var result = "";    
-    for (var i = 0; i < phrase.length; i++) {        
-        result += String.fromCharCode(phrase.charCodeAt(i) + 1);    
-        
-    }    
+Util.cipher = function (phrase) {
+    var result = "";
+
+    for (var i = 0; i < phrase.length; i++) {
+        result += String.fromCharCode(phrase.charCodeAt(i) + 1);
+    }
+
     return result;
-    
 };
 
 module.exports = Util;
-
