@@ -23,20 +23,24 @@ class Interval {
 
     /**
      * Exemple 1 :
-     *      interval1 =                         
-     *      interval2 =                               
+     *      interval1 = new Interval(0, 4)
+     *      interval2 = new Interval(2, 6)
      *      interval1.overlaps(interval2) => true
      *
      * Exemple 2 :
-     *      interval1 =                         
-     *      interval2 =                                                     
+     *      interval1 = new Interval(2, 6)
+     *      interval2 = new Interval(6, 10)
      *      interval1.overlaps(interval2) => false
      *
      * @param {Interval} interval
      * @returns {boolean}
      */
     overlaps(interval) {
-        return this.end > interval.start && this.start < interval.end;
+        const allInInterval = this.start >= interval.start && this.end <= interval.end;
+        const startInInterval = this.start >= interval.start && this.start < interval.end;
+        const endInInterval = this.end > interval.start && this.end <= interval.end;
+
+        return allInInterval || startInInterval || endInInterval;
     }
 
     /**

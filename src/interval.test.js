@@ -34,3 +34,26 @@ describe('toString', () => {
         expect(new Interval(0, 0).toString()).toEqual('[ 0, 0 ]');
     });
 });
+
+describe('overlaps', () => {
+    const i1 = new Interval(0, 4);
+    const i2 = new Interval(2, 6);
+    const i3 = new Interval(-4, 0);
+    const i4 = new Interval(6, 10);
+
+    test('(0, 4) && (2, 6) => true', () => {
+        expect(i1.overlaps(i2)).toBe(true);
+    });
+
+    test('(2, 6) && (0, 4) => true', () => {
+        expect(i2.overlaps(i1)).toBe(true);
+    });
+
+    test('(-4, 0) && (0, 4) => false', () => {
+        expect(i3.overlaps(i1)).toBe(false);
+    });
+
+    test('(2, 6) && (6, 10) => true', () => {
+        expect(i2.overlaps(i4)).toBe(false);
+    });
+});
