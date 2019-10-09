@@ -108,3 +108,22 @@ describe('union', () => {
         expect(() => i2.union({})).toThrow();
     });
 });
+
+describe('intersection', () => {
+    const i1 = new Interval(0, 4);
+    const i2 = new Interval(2, 4);
+    const i3 = new Interval(6, 10);
+
+    test('(0, 4) && (2, 4) => (2, 4)', () => {
+        expect(i1.intersection(i2)).toEqual(new Interval(2, 4));
+    });
+    test('(0, 4) && (2, 4) => (2, 4)', () => {
+        expect(i1.intersection(i3)).toEqual(null);
+    });
+
+    test('(2, 4) && not interval => Error', () => {
+        expect(() => i2.union("string")).toThrow();
+        expect(() => i2.union(0)).toThrow();
+        expect(() => i2.union({})).toThrow();
+    });
+});
