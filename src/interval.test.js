@@ -23,10 +23,6 @@ describe('constructor', () => {
     test('("0", "0") => Error', () => {
         expect(() => new Interval('0', '0')).toThrow();
     });
-    
-    test('(0, 1, 2) => Error', () => {
-        expect(() => new Interval(0, 1, 2)).toThrow();
-    });
 });
 
 describe('toString', () => {
@@ -125,5 +121,34 @@ describe('intersection', () => {
         expect(() => i2.union("string")).toThrow();
         expect(() => i2.union(0)).toThrow();
         expect(() => i2.union({})).toThrow();
+    });
+});
+
+describe('exclusion', () => {
+    const i1 = new Interval(0, 4);
+    const i2 = new Interval(2, 4);
+    const i3 = new Interval(6, 10);
+    const i4 = new Interval(2, 10);
+
+    test('(0, 4) && (2, 4) => [(0, 2)]', () => {
+        expect(i1.exclusion(i2)).toEqual([new Interval(0, 2)]);
+    });
+
+    test('(2, 4) && (0, 4) => [(0, 2)]', () => {
+        expect(i2.exclusion(i1)).toEqual([new Interval(0, 2)]);
+    });
+
+    test('(0, 4) && (6, 10) => [(0, 4), (6, 10)]', () => {
+        expect(i1.exclusion(i3)).toEqual([new Interval(0, 4), new Interval(6, 10)]);
+    });
+
+    test('(0, 4) && (2, 10) => [(0, 2), (4, 10)]', () => {
+        expect(i1.exclusion(i4)).toEqual([new Interval(0, 2), new Interval(4, 10)]);
+    });
+
+    test('(2, 4) && not interval => Error', () => {
+        expect(() => i2.exclusion("string")).toThrow();
+        expect(() => i2.exclusion(0)).toThrow();
+        expect(() => i2.exclusion({})).toThrow();
     });
 });
