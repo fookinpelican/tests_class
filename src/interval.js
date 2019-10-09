@@ -47,20 +47,20 @@ class Interval {
      * Retourne true si cet interval contient le paramètre interval
      *
      * Exemple 1 :
-     *      interval1 =                        
-     *      interval2 =                                  
+     *      interval1 = new Interval(0, 4)
+     *      interval2 = new Interval(2, 4)
      *      interval1.includes(interval2) => true
      *
      * Exemple 2 :
-     *      interval1 =                          ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-     *      interval2 =                              ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+     *      interval1 = new Interval(0, 4)
+     *      interval2 = new Interval(2, 16)
      *      interval1.includes(interval2) => false
      *
      * @param {Interval} interval
      * @returns {boolean}
      */
     includes(interval) {
-        return this.start > interval.start && this.end < interval.end; 
+        return this.start <= interval.start && this.end >= interval.end;
     };
 
     /**
