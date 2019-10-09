@@ -8,7 +8,9 @@ class BookRepository {
     }
 
     save (book) {
-        this.db.get('books').push(book).write();
+        if (book) {
+            this.db.get('books').push(book).write();
+        }
     }
 
     /**
@@ -30,7 +32,9 @@ class BookRepository {
      * Retourne un livre
      */
     getBookByName(bookName) {
-
+        if (bookName) {
+            return this.db.get('books').find({ name: bookName }).value();
+        }
     }
 
     /**
