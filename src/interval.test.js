@@ -56,9 +56,15 @@ describe('overlaps', () => {
     test('(2, 6) && (6, 10) => false', () => {
         expect(i2.overlaps(i4)).toBe(false);
     });
+
+    test('(2, 6) && not interval => Error', () => {
+        expect(() => i2.overlaps("string")).toThrow();
+        expect(() => i2.overlaps(0)).toThrow();
+        expect(() => i2.overlaps({})).toThrow();
+    });
 });
 
-describe('test includes', () => {
+describe('includes', () => {
     const i1 = new Interval(0, 4);
     const i2 = new Interval(2, 4);
     const i3 = new Interval(2, 16);
@@ -69,5 +75,36 @@ describe('test includes', () => {
 
     test('(0, 4) && (2, 16) => false', () => {
         expect(i1.includes(i3)).toBe(false);
+    });
+
+    test('(2, 4) && not interval => Error', () => {
+        expect(() => i2.includes("string")).toThrow();
+        expect(() => i2.includes(0)).toThrow();
+        expect(() => i2.includes({})).toThrow();
+    });
+});
+
+describe('union', () => {
+    const i1 = new Interval(0, 4);
+    const i2 = new Interval(2, 4);
+    const i3 = new Interval(4, 8);
+    const i4 = new Interval(6, 10);
+
+    test('(0, 4) && (2, 4) => [(2, 4)]', () => {
+        expect(i1.union(i2)).toEqual([new Interval(0, 4)]);
+    });
+
+    test('(0, 4) && (4, 8) => [(0, 8)]', () => {
+        expect(i1.union(i3)).toEqual([new Interval(0, 8)]);
+    });
+
+    test('(0, 4) && (6, 10) => [(0, 4), (6, 10)]', () => {
+        expect(i1.union(i4)).toEqual([new Interval(0, 4), new Interval(6, 10)]);
+    });
+
+    test('(2, 4) && not interval => Error', () => {
+        expect(() => i2.union("string")).toThrow();
+        expect(() => i2.union(0)).toThrow();
+        expect(() => i2.union({})).toThrow();
     });
 });
