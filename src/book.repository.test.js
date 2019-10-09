@@ -28,3 +28,27 @@ describe('getTotalCount', () => {
         expect(repository.getTotalCount()).toBe(10);
     });
 });
+
+describe('getTotalPrice', () => {
+    test('[1, 2, 3] => 6', () => {
+        const dbMock = {
+            get: jest.fn().mockReturnThis(),
+            map: jest.fn().mockReturnThis(),
+            value: jest.fn().mockReturnValue([1, 2, 3]),
+        };
+        const repository = new BookRepository(dbMock);
+
+        expect(repository.getTotalPrice()).toBe(6);
+    });
+
+    test('[] => 0', () => {
+        const dbMock = {
+            get: jest.fn().mockReturnThis(),
+            map: jest.fn().mockReturnThis(),
+            value: jest.fn().mockReturnValue([]),
+        };
+        const repository = new BookRepository(dbMock);
+
+        expect(repository.getTotalPrice()).toBe(0);
+    });
+});
