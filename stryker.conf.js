@@ -7,7 +7,8 @@ module.exports = function(config) {
     transpilers: [],
     coverageAnalysis: "off",
     mutate: [
-        "**/interval.js"
+        "**/interval.js",
+        "**/book.repository.js"
     ],
     thresholds: {
         high: 80,
