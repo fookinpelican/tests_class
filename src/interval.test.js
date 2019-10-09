@@ -37,6 +37,10 @@ describe('overlaps', () => {
     const i3 = new Interval(-4, 0);
     const i4 = new Interval(6, 10);
 
+    test('(0, 4) && (0, 4) => true', () => {
+        expect(i1.overlaps(i1)).toBe(true);
+    });
+
     test('(0, 4) && (2, 6) => true', () => {
         expect(i1.overlaps(i2)).toBe(true);
     });
@@ -64,6 +68,10 @@ describe('includes', () => {
     const i1 = new Interval(0, 4);
     const i2 = new Interval(2, 4);
     const i3 = new Interval(2, 16);
+
+    test('(0, 4) && (0, 4) => true', () => {
+        expect(i1.includes(i1)).toBe(true);
+    });
 
     test('(0, 4) && (2, 4) => true', () => {
         expect(i1.includes(i2)).toBe(true);
@@ -94,6 +102,10 @@ describe('union', () => {
         expect(i1.union(i3)).toEqual([new Interval(0, 8)]);
     });
 
+    test('(4, 8) && (0, 4) => [(0, 8)]', () => {
+        expect(i3.union(i1)).toEqual([new Interval(0, 8)]);
+    });
+
     test('(0, 4) && (6, 10) => [(0, 4), (6, 10)]', () => {
         expect(i1.union(i4)).toEqual([new Interval(0, 4), new Interval(6, 10)]);
     });
@@ -118,9 +130,9 @@ describe('intersection', () => {
     });
 
     test('(2, 4) && not interval => Error', () => {
-        expect(() => i2.union("string")).toThrow();
-        expect(() => i2.union(0)).toThrow();
-        expect(() => i2.union({})).toThrow();
+        expect(() => i2.intersection("string")).toThrow();
+        expect(() => i2.intersection(0)).toThrow();
+        expect(() => i2.intersection({})).toThrow();
     });
 });
 
@@ -129,6 +141,11 @@ describe('exclusion', () => {
     const i2 = new Interval(2, 4);
     const i3 = new Interval(6, 10);
     const i4 = new Interval(2, 10);
+    const i5 = new Interval(4, 6);
+
+    test('(0, 4) && (0, 4) => []', () => {
+        expect(i1.exclusion(i1)).toEqual([]);
+    });
 
     test('(0, 4) && (2, 4) => [(0, 2)]', () => {
         expect(i1.exclusion(i2)).toEqual([new Interval(0, 2)]);
@@ -142,8 +159,16 @@ describe('exclusion', () => {
         expect(i1.exclusion(i3)).toEqual([new Interval(0, 4), new Interval(6, 10)]);
     });
 
+    test('(6, 10) && (0, 4) => [(0, 4), (6, 10)]', () => {
+        expect(i3.exclusion(i1)).toEqual([new Interval(0, 4), new Interval(6, 10)]);
+    });
+
     test('(0, 4) && (2, 10) => [(0, 2), (4, 10)]', () => {
         expect(i1.exclusion(i4)).toEqual([new Interval(0, 2), new Interval(4, 10)]);
+    });
+
+    test('(2, 10) && (4, 6) => [(2, 4), (6, 10)]', () => {
+        expect(i4.exclusion(i5)).toEqual([new Interval(2, 4), new Interval(6, 10)]);
     });
 
     test('(2, 4) && not interval => Error', () => {
