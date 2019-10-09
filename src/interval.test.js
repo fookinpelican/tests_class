@@ -53,7 +53,21 @@ describe('overlaps', () => {
         expect(i3.overlaps(i1)).toBe(false);
     });
 
-    test('(2, 6) && (6, 10) => true', () => {
+    test('(2, 6) && (6, 10) => false', () => {
         expect(i2.overlaps(i4)).toBe(false);
+    });
+});
+
+describe('test includes', () => {
+    const i1 = new Interval(0, 4);
+    const i2 = new Interval(2, 4);
+    const i3 = new Interval(2, 16);
+
+    test('(0, 4) && (2, 4) => true', () => {
+        expect(i1.includes(i2)).toBe(true);
+    });
+
+    test('(0, 4) && (2, 16) => false', () => {
+        expect(i1.includes(i3)).toBe(false);
     });
 });
