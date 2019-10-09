@@ -23,13 +23,13 @@ class Interval {
 
     /**
      * Exemple 1 :
-     *      interval1 = new Interval(0, 4)
-     *      interval2 = new Interval(2, 6)
+     *      interval1 = Interval(0, 4)
+     *      interval2 = Interval(2, 6)
      *      interval1.overlaps(interval2) => true
      *
      * Exemple 2 :
-     *      interval1 = new Interval(2, 6)
-     *      interval2 = new Interval(6, 10)
+     *      interval1 = Interval(2, 6)
+     *      interval2 = Interval(6, 10)
      *      interval1.overlaps(interval2) => false
      *
      * @param {Interval} interval
@@ -51,13 +51,13 @@ class Interval {
      * Retourne true si cet interval contient le paramètre interval
      *
      * Exemple 1 :
-     *      interval1 = new Interval(0, 4)
-     *      interval2 = new Interval(2, 4)
+     *      interval1 = Interval(0, 4)
+     *      interval2 = Interval(2, 4)
      *      interval1.includes(interval2) => true
      *
      * Exemple 2 :
-     *      interval1 = new Interval(0, 4)
-     *      interval2 = new Interval(2, 16)
+     *      interval1 = Interval(0, 4)
+     *      interval2 = Interval(2, 16)
      *      interval1.includes(interval2) => false
      *
      * @param {Interval} interval
@@ -75,14 +75,14 @@ class Interval {
      * Retourne l'union de deux intervals
      *
      * Exemple 1 :
-     *      interval1 = new Interval(0, 4)
-     *      interval2 = new Interval(2, 4)
-     *      interval1.union(interval2) => [new Interval(0, 4)]
+     *      interval1 = Interval(0, 4)
+     *      interval2 = Interval(2, 4)
+     *      interval1.union(interval2) => [Interval(0, 4)]
      *
      * Exemple 2 :
-     *      interval1 = new Interval(0, 4)
-     *      interval2 = new Interval(6, 10)
-     *      interval1.union(interval2) => [new Interval(0, 4), new Interval(6, 10)]
+     *      interval1 = Interval(0, 4)
+     *      interval2 = Interval(6, 10)
+     *      interval1.union(interval2) => [Interval(0, 4), Interval(6, 10)]
      *
      * @param {Interval} interval
      * @returns {Interval[]}
@@ -118,20 +118,29 @@ class Interval {
      * Retourne l'intersection de deux intervals
      *
      * Exemple 1 :
-     *      interval1 =                          ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-     *      interval2 =                                              ▓▓▓▓▓▓▓▓▓▓▓▓▓
-     *      interval1.intersection(interval2) =>                     ▒▒▒▒▒
+     *      interval1 = Interval(0, 4)
+     *      interval2 = Interval(2, 4)
+     *      interval1.intersection(interval2) => Interval(2, 4)
      *
      * Exemple 2 :
-     *      interval1 =                          ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-     *      interval2 =                                                      ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-     *      interval1.intersection(interval2) => <tableau vide>
+     *      interval1 = Interval(0, 4)
+     *      interval2 = Interval(6, 10)
+     *      interval1.intersection(interval2) => null
      *
      * @param {Interval} interval
      * @returns {Interval|null}
      */
     intersection(interval) {
+        if (interval.constructor.name !== 'Interval') {
+            throw 'ERROR: the parameter must be an Interval'
+        } else if (! this.overlaps(interval)) {
+            return null;
+        } else {
+            const start = this.start > interval.start ? this.start : interval.start;
+            const end = this.end < interval.end ? this.end : interval.end;
 
+            return new Interval(start, end);
+        }
     };
 
     /**
