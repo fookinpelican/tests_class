@@ -1,11 +1,24 @@
 class Interval {
-    constructor(start, end) {
+    constructor(start, end, ...args) {
+        if (start === undefined || end === undefined) {
+            throw 'ERROR: Please provide "start" and "end" arguments';
+        } else if (args.length !== 0) {
+            throw 'ERROR: Too many arguments';
+        } else if (typeof start !== 'number' || typeof end !== 'number') {
+            throw 'ERROR: The type of "start" or "end" is incorrect';
+        }
+
+        if (start > end) {
+            const tmp = start;
+            start = end;
+            end = tmp;
+        }
         this.start = start;
-        this.end = end
+        this.end = end;
     }
 
     toString() {
-        return "[" + this.start + "," + this.end + "]";
+        return "[ " + this.start + ", " + this.end + " ]";
     }
 
     /**
