@@ -36,6 +36,10 @@ class Interval {
      * @returns {boolean}
      */
     overlaps(interval) {
+        if (interval.constructor.name !== 'Interval') {
+            throw 'ERROR: the parameter must be an Interval'
+        }
+
         const allInInterval = this.start >= interval.start && this.end <= interval.end;
         const startInInterval = this.start >= interval.start && this.start < interval.end;
         const endInInterval = this.end > interval.start && this.end <= interval.end;
@@ -60,6 +64,10 @@ class Interval {
      * @returns {boolean}
      */
     includes(interval) {
+        if (interval.constructor.name !== 'Interval') {
+            throw 'ERROR: the parameter must be an Interval'
+        }
+
         return this.start <= interval.start && this.end >= interval.end;
     };
 
@@ -67,20 +75,43 @@ class Interval {
      * Retourne l'union de deux intervals
      *
      * Exemple 1 :
-     *      interval1 =                          ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-     *      interval2 =                                              ▓▓▓▓▓▓▓▓▓▓▓▓▓
-     *      interval1.union(interval2) =>        ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+     *      interval1 = new Interval(0, 4)
+     *      interval2 = new Interval(2, 4)
+     *      interval1.union(interval2) => [new Interval(0, 4)]
      *
      * Exemple 2 :
-     *      interval1 =                          ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-     *      interval2 =                                                      ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-     *      interval1.union(interval2) =>        ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒   ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+     *      interval1 = new Interval(0, 4)
+     *      interval2 = new Interval(6, 10)
+     *      interval1.union(interval2) => [new Interval(0, 4), new Interval(6, 10)]
      *
      * @param {Interval} interval
      * @returns {Interval[]}
      */
     union(interval) {
-        
+        const array = new Array();
+
+        if (interval.constructor.name !== 'Interval') {
+            throw 'ERROR: the parameter must be an Interval'
+        } else if (! this.overlaps(interval)) {
+            if (this.start < interval.start) {
+                array.push(new Interval(this.start, this.end));
+                array.push(new Interval(interval.start, interval.end));
+            } else {
+                array.push(new Interval(interval.start, interval.end));
+                array.push(new Interval(this.start, this.end));
+            }
+
+            if (array[0].end === array[1].start) {
+                array[0].end = array[1].end;
+                array.pop()
+            }
+        } else {
+            const start = this.start <= interval.start ? this.start : interval.start;
+            const end = this.end >= interval.end ? this.end : interval.end;
+            array.push(new Interval(start, end));
+        }
+
+        return array;
     };
 
     /**
